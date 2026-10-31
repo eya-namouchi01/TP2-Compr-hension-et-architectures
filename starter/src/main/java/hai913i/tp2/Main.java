@@ -122,7 +122,10 @@ public final class Main {
         // TODO étape B3 : couper l'arbre sous les trois contraintes, puis
         //                 vérifier la contrainte M/2 et signaler sa violation.
         OUT.println();
-        OUT.println("Faits chargés. Les étapes A1 à B3 restent à écrire.");
+        Coupling coupling = new Coupling(facts);
+        OUT.println();
+        OUT.println("A1 Couplage");
+        OUT.print(Report.coupling(coupling));
     }
 
     /**
@@ -146,4 +149,5 @@ public final class Main {
         ERR.println("                       déduit du dossier");
         System.exit(1);
     }
+
 }
