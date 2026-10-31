@@ -3,6 +3,7 @@ package hai913i.tp2;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Locale;
 
@@ -126,6 +127,27 @@ public final class Main {
         OUT.println();
         OUT.println("A1 Couplage");
         OUT.print(Report.coupling(coupling));
+        OUT.println();
+        OUT.println("A2 GraphCouplage");
+        CouplingGraph graph = CouplingGraph.fromCoupling(coupling);
+        OUT.print(Report.graph(graph));
+        OUT.println();
+        OUT.println("Export CSV/DOT");
+        //A2: export the graph (CSV + DOT), then reload the CSV to check it
+        try {
+            Files.createDirectories(Path.of("sorties"));
+            Path graphFile = Path.of("sorties").resolve("graphe.csv");
+            graph.saveFile(graphFile);
+            Files.writeString(Path.of("sorties").resolve("graphe.dot"), graph.toDot(), StandardCharsets.UTF_8);
+
+            CouplingGraph reloaded = CouplingGraph.load(graphFile);
+            boolean same = reloaded.nodes().equals(graph.nodes()) && reloaded.edges().equals(graph.edges());
+            OUT.println("Fichiers écrits : " + graphFile.toAbsolutePath() + " et graphe.dot");
+            OUT.println("Rechargement de graphe.csv : " + (same ? "mêmes valeurs" : "DIFFÉRENT"));
+        } catch (IOException e) {
+            ERR.println("Écriture du graphe impossible : " + e.getMessage());
+            System.exit(2);
+        }
     }
 
     /**

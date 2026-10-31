@@ -37,4 +37,21 @@ public class Report {
         return sb.toString();
     }
 
+    // Step A2
+    public static String graph(CouplingGraph g) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Noeuds : " + g.nodes().size() + "\n");
+        sb.append("Arêtes : " + g.edges().size() + "\n");
+        sb.append("Les cinq couples les plus couplés :\n");
+        for (CouplingGraph.Edge e : g.top(5)) {
+            sb.append("  " + shortName(e.classA()) + " - " + shortName(e.classB()) + " : " + num(e.weight()) + "\n");
+        }
+        sb.append("Classes isolées :");
+        for (String c : g.isolatedClasses()) {
+            sb.append(" " + shortName(c));
+        }
+        sb.append("\n");
+        return sb.toString();
+    }
+
 }
