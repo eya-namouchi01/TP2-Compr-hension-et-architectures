@@ -148,6 +148,11 @@ public final class Main {
             ERR.println("Écriture du graphe impossible : " + e.getMessage());
             System.exit(2);
         }
+        //B1
+        Clustering clustering = new Clustering(coupling.classes(), coupling);
+        OUT.println();
+        OUT.println("B1 Regroupement (lien moyen)");
+        OUT.print(Report.merges(clustering.merges()));
     }
 
     /**

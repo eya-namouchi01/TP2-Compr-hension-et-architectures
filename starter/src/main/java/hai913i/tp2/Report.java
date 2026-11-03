@@ -54,4 +54,15 @@ public class Report {
         return sb.toString();
     }
 
+    // Step B1
+    public static String merges(List<Cluster> merges) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Nombre de fusions : " + merges.size() + "\n");
+        for (int i = 0; i < merges.size(); i++) {
+            Cluster m = merges.get(i);
+            sb.append("  Étape " + (i + 1) + " : " + m.left() + " + " + m.right() + " -> " + num(m.similarity()) + "\n");
+        }
+        return sb.toString();
+    }
+
 }
