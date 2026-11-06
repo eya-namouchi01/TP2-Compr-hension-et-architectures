@@ -153,6 +153,28 @@ public final class Main {
         OUT.println();
         OUT.println("B1 Regroupement (lien moyen)");
         OUT.print(Report.merges(clustering.merges()));
+
+        // Step B2: dendrogram
+        Dendrogram dendrogram = new Dendrogram(clustering.root(), clustering.merges());
+        OUT.println();
+        OUT.println("B2 Dendrogramme");
+        OUT.println("Feuilles : " + dendrogram.leafCount()
+                + ", noeuds internes : " + dendrogram.internalCount()
+                + ", arbre valide : " + (dendrogram.isValid() ? "oui" : "NON"));
+        OUT.print(dendrogram.indentedTree());
+        // B2: export the dendrogram (indented tree, merge list, DOT)
+        try {
+            Path outDir = Path.of("sorties");
+            Files.createDirectories(outDir);
+            Files.writeString(outDir.resolve("dendrogramme.txt"), dendrogram.indentedTree(), StandardCharsets.UTF_8);
+            Files.writeString(outDir.resolve("fusions.csv"), dendrogram.listMerge(),StandardCharsets.UTF_8);
+            Files.writeString(outDir.resolve("dendrogramme.dot"), dendrogram.toDot(),StandardCharsets.UTF_8);
+            OUT.println("Fichiers écrits : dendrogramme.txt, fusions.csv et dendrogramme.dot");
+        } catch (IOException e) {
+            ERR.println("Echec d'écriture du dendrogramme : " + e.getMessage());
+            System.exit(2);
+        }
+
     }
 
     /**

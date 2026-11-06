@@ -34,6 +34,10 @@ public class Cluster {
         this.similarity =similarity;
     }
 
+    public boolean isLeaf() {
+        return left == null;
+    }
+
     public int id() {
         return id;
     }
