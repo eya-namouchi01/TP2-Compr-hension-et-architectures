@@ -175,6 +175,12 @@ public final class Main {
             System.exit(2);
         }
 
+        // Step B3: modules
+        Cut cut = new Cut(clustering.root(), coupling, coupling.classes().size(), cp);
+        OUT.println();
+        OUT.println("B3 Modules");
+        OUT.print(Report.modules(cut));
+
     }
 
     /**

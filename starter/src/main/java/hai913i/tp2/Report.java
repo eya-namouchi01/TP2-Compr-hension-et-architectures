@@ -65,4 +65,24 @@ public class Report {
         return sb.toString();
     }
 
+    // Step B3
+    public static String modules(Cut cut) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Seuil CP : " + num(cut.cp()) + "\n");
+        List<Cluster> modules = cut.modules();
+        for (int i = 0; i < modules.size(); i++) {
+            Cluster m = modules.get(i);
+            sb.append("  Module " + (i + 1) + " (" + m.members().size() + " classe" + (m.members().size() > 1 ? "s" : "") + ") : " + m);
+            if (m.members().size() > 1) sb.append("  couplage interne moyen = " + num(cut.internalCoupling(m)));
+            else {
+                sb.append("  (une seule classe)");
+            }
+            sb.append("\n");
+        }
+        sb.append("Nombre de modules : " + modules.size() + " (maximum M/2 = " + cut.classCount()/2 + ")\n");
+        if (cut.respectsLimit()) sb.append("Contrainte M/2 respectée.\n");
+        else sb.append("Contrainte M/2 VIOLÉE : cette coupe est rejetée avec ce seuil.\n");
+        return sb.toString();
+    }
+
 }
